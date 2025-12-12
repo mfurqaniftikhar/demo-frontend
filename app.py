@@ -54,7 +54,7 @@ if "name" in st.session_state:
         st.success("Voice recorded!")
 
         if st.button("Submit Voice"):
-            with st.spinner("Sending to server..."):
+            with st.spinner("Processing voice to text..."):
                 files = {"audio": audio_file}
                 data = {
                     "name": st.session_state["name"],
@@ -62,10 +62,24 @@ if "name" in st.session_state:
                     "phone": st.session_state["phone"],
                 }
 
-                requests.post(
+                response = requests.post(
                     "https://mfurqaniftikhar00-voice-to-text.hf.space/submit",
                     data=data,
                     files=files
                 )
 
-                st.success("Your voice query has been submitted successfully!")
+                if response.status_code == 200:
+                    result = response.json()
+                    st.success("✅ Your voice query has been submitted successfully!")
+                    
+                    # Display the result in JSON format
+                    st.subheader("📄 Submission Report (JSON)")
+                    st.json(result)
+                    
+                    # Highlight the transcribed text
+                    if "report" in result and "voice_text" in result["report"]:
+                        st.subheader("🎯 Transcribed Text:")
+                        st.info(result["report"]["voice_text"])
+                else:
+                    st.error(f"❌ Error: {response.status_code}")
+
