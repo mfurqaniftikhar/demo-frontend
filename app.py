@@ -63,7 +63,7 @@ if "name" in st.session_state:
                 }
 
                 requests.post(
-                    "https://mfurqaniftikhar0-voice-chatbot-backend.hf.space",
+                    "https://mfurqaniftikhar0-voice-chatbot-backend.hf.space/submit",
                     data=data,
                     files=files
                 )
