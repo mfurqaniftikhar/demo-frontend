@@ -21,10 +21,8 @@ with st.form("user_form"):
     name = st.text_input("Your Name")
     cnic = st.text_input("CNIC Number (13 digits)")
     phone = st.text_input("Phone Number (11 digits)")
-
     btn = st.form_submit_button("Next")
 
-# Validation flags
 valid_cnic = True
 valid_phone = True
 
@@ -39,18 +37,6 @@ if btn:
         valid_phone = False
         st.error("❌ Invalid Phone Number — It must be exactly 11 digits")
 
-    # Show red border using CSS classes
-    if not valid_cnic:
-        st.markdown('<div class="invalid-input">', unsafe_allow_html=True)
-        st.text_input("Fix CNIC:", value=cnic)
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    if not valid_phone:
-        st.markdown('<div class="invalid-input">', unsafe_allow_html=True)
-        st.text_input("Fix Phone Number:", value=phone)
-        st.markdown('</div>', unsafe_allow_html=True)
-
-    # If both are valid
     if valid_cnic and valid_phone:
         st.success("User info saved! Now record your voice.")
         st.session_state["name"] = name
@@ -76,12 +62,10 @@ if "name" in st.session_state:
                     "phone": st.session_state["phone"],
                 }
 
-                # Backend call
                 requests.post(
-                    "https://mfurqaniftikhar00-voice-chatbot-backend.hf.space/submit",
+                    "http://127.0.0.1:4040/submit",
                     data=data,
                     files=files
                 )
 
-                # Don't show report on screen (as required)
                 st.success("Your voice query has been submitted successfully!")
