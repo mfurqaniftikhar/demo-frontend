@@ -6,7 +6,7 @@ st.set_page_config(page_title="All Reports", page_icon="📄")
 st.title("📄 All Voice Query Reports")
 
 try:
-    response = requests.get("https://mfurqaniftikhar00-voice-chatbot-backend.hf.space/reports")
+    response = requests.get("https://mfurqaniftikhar0-voice-chatbot-backend.hf.space/reports")
     data = response.json()
 except:
     st.error("Backend not responding!")
